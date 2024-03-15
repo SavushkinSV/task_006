@@ -5,7 +5,7 @@ FSAN=-fsanitize=leak -fsanitize=address -fsanitize=undefined -fsanitize=unreacha
 all: cafe
 
 air_traffic: cafe.c
-	$(CC) $(CFLAGS) cafe.c -o ../bin/air_traffic
+	$(CC) $(CFLAGS) cafe.c -o ../bin/traffic
 
 cafe: cafe.c
 	$(CC) $(CFLAGS) cafe.c -o ../bin/cafe
