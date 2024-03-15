@@ -69,7 +69,7 @@ void input_command() {
             case COMMAND_STATS:
                 printf("COMMAND_STATS");
                 break;
-            case COMMAND_EXIT:                
+            case COMMAND_EXIT:
                 break;
             default:
                 printf("UNKNOWN COMMAND");
@@ -90,6 +90,7 @@ int get_command() {
     return result;
 }
 
+/* Функция ввода заказа */
 void input_order(Queue *queue_kitchen, Queue *queue_bar) {
     char name[MAX_LEN_STRING];
     int price = 0;
@@ -139,10 +140,10 @@ void insert(Queue *queue, Order new_order) {
     }
 }
 
-/*  */
+/* Проверка на пустуй очередь */
 int is_impty(Queue *queue) { return (queue->last < queue->first) ? 1 : 0; }
 
-/*  */
+/* Удаление заказа */
 Order remove_order(Queue *queue) {
     if (is_impty(queue) == 1) {
         printf("Queue is empty");
@@ -156,12 +157,13 @@ Order remove_order(Queue *queue) {
     return first_order;
 }
 
+/* Печать первого заказа */
 void print_order(Queue *queue) {
     if (is_impty(queue) == 1) {
         printf("NO ORDERS");
     } else {
-        if(queue->orders[queue->first].room == COMMAND_KITCHEN) printf("KITCHEN ");
-        if(queue->orders[queue->first].room == COMMAND_BAR) printf("BAR ");
+        if (queue->orders[queue->first].room == COMMAND_KITCHEN) printf("KITCHEN ");
+        if (queue->orders[queue->first].room == COMMAND_BAR) printf("BAR ");
         printf("%d\n", queue->orders[queue->first].price);
     }
 }
