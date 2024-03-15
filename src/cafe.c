@@ -162,8 +162,8 @@ void print_order(Queue *queue) {
     if (is_impty(queue) == 1) {
         printf("NO ORDERS");
     } else {
-        if (queue->orders[queue->first].room == COMMAND_KITCHEN) printf("KITCHEN ");
-        if (queue->orders[queue->first].room == COMMAND_BAR) printf("BAR ");
-        printf("%d\n", queue->orders[queue->first].price);
+        // if (queue->orders[queue->first].room == COMMAND_KITCHEN) printf("KITCHEN ");
+        // if (queue->orders[queue->first].room == COMMAND_BAR) printf("BAR ");
+        printf("%s\n", queue->orders[queue->first].name);
     }
 }
