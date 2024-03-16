@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define COMMAND_EXIT 0
 #define COMMAND_ORDER 1
 #define COMMAND_KITCHEN 2
 #define COMMAND_BAR 3
 #define COMMAND_STATS 4
-#define COMMAND_EXIT 0
 #define MAX_LEN_STRING 256
 #define QUEUE_SIZE 10
 
@@ -50,22 +50,26 @@ void input_command() {
     Order tmp;
     while (command) {
         command = get_command();
-        free_buffer();
         switch (command) {
             case COMMAND_ORDER:
+                free_buffer();
                 input_order(queue_kitchen, queue_bar);
                 break;
             case COMMAND_KITCHEN:
                 print_order(queue_kitchen);
                 tmp = remove_order(queue_kitchen);
-                count_kitchen++;
-                total_kitchen += tmp.price;
+                if (tmp.room) {
+                    count_kitchen++;
+                    total_kitchen += tmp.price;
+                }
                 break;
             case COMMAND_BAR:
                 print_order(queue_bar);
                 tmp = remove_order(queue_bar);
-                count_bar++;
-                total_bar += tmp.price;
+                if (tmp.room) {
+                    count_bar++;
+                    total_bar += tmp.price;
+                }
                 break;
             case COMMAND_STATS:
                 print_stats(count_kitchen, total_kitchen, count_bar, total_bar);
@@ -78,6 +82,7 @@ void input_command() {
     }
 }
 
+/* Функция получения команды */
 int get_command() {
     int result = -1;
     char input[MAX_LEN_STRING];
@@ -146,14 +151,16 @@ int is_impty(Queue *queue) { return (queue->last < queue->first) ? 1 : 0; }
 
 /* Удаление заказа */
 Order remove_order(Queue *queue) {
-    if (is_impty(queue) == 1) {
-        printf("Queue is empty");
+    Order first_order = {.room = 0};
+    if (!is_impty(queue)) {
+        first_order = queue->orders[queue->first];
+        for (int i = queue->first; i < queue->last; i++) {
+            queue->orders[i] = queue->orders[i + 1];
+        }
+        queue->last--;
+    } else {
+        // printf("Queue is empty");
     }
-    Order first_order = queue->orders[queue->first];
-    for (int i = queue->first; i < queue->last; i++) {
-        queue->orders[i] = queue->orders[i + 1];
-    }
-    queue->last--;
 
     return first_order;
 }
@@ -161,7 +168,7 @@ Order remove_order(Queue *queue) {
 /* Печать первого заказа */
 void print_order(Queue *queue) {
     if (is_impty(queue) == 1) {
-        printf("NO ORDERS");
+        printf("NO ORDERS\n");
     } else {
         // if (queue->orders[queue->first].room == COMMAND_KITCHEN) printf("KITCHEN ");
         // if (queue->orders[queue->first].room == COMMAND_BAR) printf("BAR ");
