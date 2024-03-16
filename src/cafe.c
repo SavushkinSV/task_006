@@ -1,38 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#define COMMAND_EXIT 0
-#define COMMAND_ORDER 1
-#define COMMAND_KITCHEN 2
-#define COMMAND_BAR 3
-#define COMMAND_STATS 4
-#define MAX_LEN_STRING 256
-#define QUEUE_SIZE 10
+#include "cafe.h"
 
-typedef struct {
-    int room;
-    char name[MAX_LEN_STRING];
-    int price;
-} Order;
-
-typedef struct {
-    Order orders[QUEUE_SIZE];
-    int first;
-    int last;
-} Queue;
-
-void input_command();
-int get_command();
-void input_order(Queue *queue_kitchen, Queue *queue_bar);
-void input_name_add_price(char *name, int *price);
-void free_buffer();
-Queue *init_queue();
-void insert(Queue *queue, Order new_order);
-int is_impty(Queue *queue);
-Order remove_order(Queue *queue);
-void print_order(Queue *queue);
-void print_stats(int count_kitchen, int total_kitchen, int count_bar, int total_bar);
+#include "queue.h"
 
 int main() {
     input_command();
@@ -124,55 +93,6 @@ void free_buffer() {
     int c;
     while ((c = getchar()) != '\n') {
         ;
-    }
-}
-
-/* Функция инициализации стека */
-Queue *init_queue() {
-    Queue *pointer_queue = malloc(sizeof(Queue));
-    pointer_queue->first = 1;
-    pointer_queue->last = 0;
-
-    return pointer_queue;
-}
-
-/* Функция добавления в очередь */
-void insert(Queue *queue, Order new_order) {
-    if (queue->last < QUEUE_SIZE - 1) {
-        queue->last++;
-        queue->orders[queue->last] = new_order;
-    } else {
-        printf("Queue is full");
-    }
-}
-
-/* Проверка на пустуй очередь */
-int is_impty(Queue *queue) { return (queue->last < queue->first) ? 1 : 0; }
-
-/* Удаление заказа */
-Order remove_order(Queue *queue) {
-    Order first_order = {.room = 0};
-    if (!is_impty(queue)) {
-        first_order = queue->orders[queue->first];
-        for (int i = queue->first; i < queue->last; i++) {
-            queue->orders[i] = queue->orders[i + 1];
-        }
-        queue->last--;
-    } else {
-        // printf("Queue is empty");
-    }
-
-    return first_order;
-}
-
-/* Печать первого заказа */
-void print_order(Queue *queue) {
-    if (is_impty(queue) == 1) {
-        printf("NO ORDERS\n");
-    } else {
-        // if (queue->orders[queue->first].room == COMMAND_KITCHEN) printf("KITCHEN ");
-        // if (queue->orders[queue->first].room == COMMAND_BAR) printf("BAR ");
-        printf("%s\n", queue->orders[queue->first].name);
     }
 }
 

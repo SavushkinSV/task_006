@@ -1,4 +1,5 @@
 #include "queue.h"
+
 #include "cafe.h"
 
 /* Функция инициализации очереди */

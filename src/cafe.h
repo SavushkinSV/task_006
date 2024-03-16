@@ -13,7 +13,6 @@
 #define COMMAND_BAR 3
 #define COMMAND_STATS 4
 
-
 void input_command();
 int get_command();
 void input_order(Queue *queue_kitchen, Queue *queue_bar);
