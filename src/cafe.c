@@ -32,6 +32,7 @@ void insert(Queue *queue, Order new_order);
 int is_impty(Queue *queue);
 Order remove_order(Queue *queue);
 void print_order(Queue *queue);
+void print_stats(int count_kitchen, int total_kitchen, int count_bar, int total_bar);
 
 int main() {
     input_command();
@@ -67,12 +68,12 @@ void input_command() {
                 total_bar += tmp.price;
                 break;
             case COMMAND_STATS:
-                printf("COMMAND_STATS");
+                print_stats(count_kitchen, total_kitchen, count_bar, total_bar);
                 break;
             case COMMAND_EXIT:
                 break;
             default:
-                printf("UNKNOWN COMMAND");
+                printf("UNKNOWN COMMAND\n");
         }
     }
 }
@@ -166,4 +167,10 @@ void print_order(Queue *queue) {
         // if (queue->orders[queue->first].room == COMMAND_BAR) printf("BAR ");
         printf("%s\n", queue->orders[queue->first].name);
     }
+}
+
+/* Печать статистики */
+void print_stats(int count_kitchen, int total_kitchen, int count_bar, int total_bar) {
+    printf("KITCHEN %d %d\n", count_kitchen, total_kitchen);
+    printf("BAR %d %d\n", count_bar, total_bar);
 }
